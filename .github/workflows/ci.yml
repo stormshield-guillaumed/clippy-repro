@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  clippy:
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [ "--bins", "--tests", "--all-targets" ]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run cargo version --verbose
+        run: cargo version --verbose
+
+      - name: Run cargo clippy --version
+        run: cargo clippy --version
+
+      - name: Run cargo clippy
+        run: cargo clippy ${{ matrix.target }}
